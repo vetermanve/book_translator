@@ -89,6 +89,39 @@ class DeepSeekTranslator:
             "indicator": "индикатор"
         }
     
+    def translate_text(self, text, system_message="You are a professional translator.", temperature=0.3, max_tokens=4000):
+        """
+        Универсальный метод для перевода/обработки текста через DeepSeek API
+        
+        Args:
+            text: Текст для обработки
+            system_message: Системное сообщение для настройки поведения модели
+            temperature: Температура генерации (0.0-1.0)
+            max_tokens: Максимальное количество токенов в ответе
+            
+        Returns:
+            Обработанный текст
+        """
+        if not self.client:
+            raise ValueError("API клиент не инициализирован. Проверьте API ключ.")
+        
+        try:
+            response = self.client.chat.completions.create(
+                model="deepseek-chat",
+                messages=[
+                    {"role": "system", "content": system_message},
+                    {"role": "user", "content": text}
+                ],
+                temperature=temperature,
+                max_tokens=max_tokens
+            )
+            
+            return response.choices[0].message.content
+            
+        except Exception as e:
+            print(f"Ошибка при обращении к API: {e}")
+            raise
+    
     def translate_chapter(self, chapter_data, context, use_api=True):
         if use_api and self.client:
             return self._translate_with_deepseek(chapter_data, context)

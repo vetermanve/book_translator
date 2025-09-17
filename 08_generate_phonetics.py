@@ -13,6 +13,20 @@ from typing import Dict, List
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 
+# Загружаем переменные из .env если есть
+env_file = Path('.env')
+if env_file.exists():
+    with open(env_file) as f:
+        for line in f:
+            if '=' in line and not line.startswith('#'):
+                key, value = line.strip().split('=', 1)
+                # Убираем кавычки если есть
+                if value.startswith('"') and value.endswith('"'):
+                    value = value[1:-1]
+                elif value.startswith("'") and value.endswith("'"):
+                    value = value[1:-1]
+                os.environ[key] = value
+
 # Добавляем путь к deepseek_translator
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from deepseek_translator import DeepSeekTranslator
