@@ -119,9 +119,15 @@ config.json
 settings.json
 api_keys.json
 
-# Generated phonetics
+# Generated phonetics and context
 extracted_terms.json
+extracted_terms_audio.json
 phonetics.json
+phonetics_audio.json
+book_context.json
+
+# Adapted audio texts
+audio_adapted/
 
 # But keep example configs
 !config.example.json
