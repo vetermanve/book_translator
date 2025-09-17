@@ -119,7 +119,12 @@ config.json
 settings.json
 api_keys.json
 
+# Generated phonetics
+extracted_terms.json
+phonetics.json
+
 # But keep example configs
 !config.example.json
 !blacklist_config.json
+!phonetics.example.json
 !.env.example

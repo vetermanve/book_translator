@@ -42,7 +42,9 @@ except (ImportError, Exception):
 
 
 class AudioBookGenerator:
-    def __init__(self, translations_dir="translations", output_dir="audiobook", workers=25, paragraphs_per_group=3, enable_phonetic=True):
+    def __init__(self, translations_dir="translations", output_dir="audiobook", 
+                 workers=25, paragraphs_per_group=3, enable_phonetic=True, 
+                 phonetics_file=None):
         self.translations_dir = Path(translations_dir)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(exist_ok=True)
@@ -55,6 +57,7 @@ class AudioBookGenerator:
         self.workers = self._get_safe_worker_count(workers)
         self.paragraphs_per_group = paragraphs_per_group  # Размер группы параграфов
         self.enable_phonetic = enable_phonetic  # Включить фонетическую замену
+        self.phonetics_file = phonetics_file  # Внешний файл с фонетикой
         
         # Голос для озвучки (русские голоса edge-tts)
         self.voices = {
@@ -79,7 +82,51 @@ class AudioBookGenerator:
         
         # Словарь фонетических замен для английских терминов
         if self.enable_phonetic:
+            if self.phonetics_file:
+                self._load_phonetics_from_file()
+            else:
+                self._init_phonetic_replacements()
+    
+    def _load_phonetics_from_file(self):
+        """Загрузка фонетических замен из внешнего файла"""
+        try:
+            with open(self.phonetics_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Извлекаем фонетические замены
+            if 'phonetics' in data:
+                self.phonetic_replacements = data['phonetics']
+            else:
+                # Если это простой словарь
+                self.phonetic_replacements = data
+            
+            # Добавляем варианты с точками для аббревиатур
+            self._add_dotted_variants()
+            
+            print(f"📂 Загружено {len(self.phonetic_replacements)} фонетических замен из {self.phonetics_file}")
+            
+        except FileNotFoundError:
+            print(f"⚠️ Файл {self.phonetics_file} не найден, используем встроенные замены")
             self._init_phonetic_replacements()
+        except json.JSONDecodeError as e:
+            print(f"⚠️ Ошибка чтения JSON из {self.phonetics_file}: {e}")
+            self._init_phonetic_replacements()
+        except Exception as e:
+            print(f"⚠️ Ошибка загрузки фонетики: {e}")
+            self._init_phonetic_replacements()
+    
+    def _add_dotted_variants(self):
+        """Добавляет варианты с точками для аббревиатур"""
+        # Находим все аббревиатуры (все заглавные буквы)
+        abbreviations = [
+            term for term in self.phonetic_replacements.keys() 
+            if term.isupper() and len(term) > 1 and '.' not in term
+        ]
+        
+        for abbr in abbreviations:
+            dotted = '.'.join(abbr) + '.'  # C.M.M.I.
+            if dotted not in self.phonetic_replacements:
+                self.phonetic_replacements[dotted] = self.phonetic_replacements[abbr]
     
     def _init_phonetic_replacements(self):
         """Инициализация словаря фонетических замен"""
@@ -148,15 +195,8 @@ class AudioBookGenerator:
             'Level 5': 'левел файв',
         }
         
-        # Добавляем варианты с точками для аббревиатур
-        abbreviations = ['CMMI', 'SEI', 'CAR', 'CM', 'DAR', 'IPM', 'MA', 
-                        'OPD', 'OPF', 'OPM', 'OPP', 'OT', 'PI', 'PMC', 
-                        'PP', 'PPQA', 'QPM', 'RD', 'REQM', 'RSKM', 'SAM']
-        
-        for abbr in abbreviations:
-            dotted = '.'.join(abbr) + '.'  # C.M.M.I.
-            if dotted not in self.phonetic_replacements:
-                self.phonetic_replacements[dotted] = self.phonetic_replacements[abbr]
+        # Добавляем варианты с точками
+        self._add_dotted_variants()
     
     def _get_safe_worker_count(self, requested_workers):
         """Определяет безопасное количество воркеров на основе системных лимитов"""
@@ -618,6 +658,8 @@ def main():
                        help='Количество параграфов в группе (по умолчанию: 3, как при переводе)')
     parser.add_argument('--disable-phonetic', action='store_true',
                        help='Отключить фонетическую замену английских терминов')
+    parser.add_argument('--phonetics', type=str, default=None,
+                       help='Файл с фонетическими транскрипциями (JSON)')
     parser.add_argument('--translations-dir', default='translations',
                        help='Директория с переводами (по умолчанию: translations)')
     parser.add_argument('--list-voices', action='store_true',
@@ -630,7 +672,8 @@ def main():
         translations_dir=args.translations_dir,
         workers=args.workers,
         paragraphs_per_group=args.paragraphs_per_group,
-        enable_phonetic=not args.disable_phonetic
+        enable_phonetic=not args.disable_phonetic,
+        phonetics_file=args.phonetics
     )
     
     # Если запрошен список голосов
