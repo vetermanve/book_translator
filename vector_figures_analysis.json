@@ -1,0 +1,508 @@
+[
+  {
+    "page": 15,
+    "caption": "business. Figure 1.1 illustrates the three critical dimensions that",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 162,
+      "path_count": 162,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 15,
+    "caption": "business. Figure 1.1 illustrates the three critical dimensions that",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 162,
+      "path_count": 162,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 17,
+    "caption": "(then simply called “CMMI”). Figure 1.2 illustrates the models that led to",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 53,
+      "path_count": 53,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 17,
+    "caption": "(then simply called “CMMI”). Figure 1.2 illustrates the models that led to",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 53,
+      "path_count": 53,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 21,
+    "caption": "",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 163,
+      "path_count": 163,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 21,
+    "caption": "Figure 2.1: CMMI Model Components",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 163,
+      "path_count": 163,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 28,
+    "caption": "Figure 2.2: Sample Page from Decision Analysis and Resolution",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 11,
+      "path_count": 11,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 29,
+    "caption": "Figure 2.3: Sample Page from Causal Analysis and Resolution",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 13,
+      "path_count": 13,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 30,
+    "caption": "Figure 2.4: Sample Page from the Generic Goals and Generic Practices",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 7,
+      "path_count": 7,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 33,
+    "caption": "Figure 3.1 illustrates the structures of the continuous and staged",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 36,
+      "path_count": 36,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 33,
+    "caption": "Figure 3.1 illustrates the structures of the continuous and staged",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 36,
+      "path_count": 36,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 34,
+    "caption": "What is not readily apparent from the high-level view in Figure 3.1 is that",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 97,
+      "path_count": 97,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 34,
+    "caption": "Table 3.1 compares the four capability levels to the five maturity levels.",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 97,
+      "path_count": 97,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 34,
+    "caption": "Table 3.1 compares the four capability levels to the five maturity levels.",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 97,
+      "path_count": 97,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 41,
+    "caption": "Process areas are viewed differently in the two representations. Figure 3.2",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 42,
+    "caption": "Figure 3.2: Process Areas in the Continuous and Staged Representations",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 40,
+      "path_count": 40,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 44,
+    "caption": "Table 3.2 provides a list of CMMI-DEV process areas and their associated",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 110,
+      "path_count": 110,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 44,
+    "caption": "Table 3.2 provides a list of CMMI-DEV process areas and their associated",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 110,
+      "path_count": 110,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 45,
+    "caption": "Figure 3.3 illustrates a combined target and achievement profile. The gray",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 17,
+      "path_count": 17,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 46,
+    "caption": "Figure 3.3: Example Combined Target and Achievement Profile",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 46,
+      "path_count": 46,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 46,
+    "caption": "See Table 6.2 in the Generic Goals and Generic Practices section of Part Two for more information about the dependencies",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 46,
+      "path_count": 46,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 47,
+    "caption": "Figure 3.4 shows a summary of the target profiles that must be achieved",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 244,
+      "path_count": 244,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 47,
+    "caption": "Figure 3.4 shows a summary of the target profiles that must be achieved",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 244,
+      "path_count": 244,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 51,
+    "caption": "Figure 4.1 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 157,
+      "path_count": 157,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 51,
+    "caption": "Figure 4.1 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 157,
+      "path_count": 157,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 51,
+    "caption": "Figure 4.1 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 157,
+      "path_count": 157,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 52,
+    "caption": "Figure 4.2 provides a bird’s-eye view of the interactions among the",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 53,
+    "caption": "Figure 4.2: Advanced Process Management Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 177,
+      "path_count": 177,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 53,
+    "caption": "Figure 4.2: Advanced Process Management Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 177,
+      "path_count": 177,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 54,
+    "caption": "Figure 4.3 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 2,
+      "path_count": 2,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 54,
+    "caption": "Figure 4.3 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 2,
+      "path_count": 2,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 55,
+    "caption": "Figure 4.3: Basic Project Management Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 159,
+      "path_count": 159,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 55,
+    "caption": "Figure 4.3: Basic Project Management Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 159,
+      "path_count": 159,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 56,
+    "caption": "Figure 4.4 provides a bird’s-eye view of the interactions among the",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 57,
+    "caption": "Figure 4.4: Advanced Project Management Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 610,
+      "path_count": 610,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 58,
+    "caption": "Figure 4.5 provides a bird’s-eye view of the interactions among the six",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 59,
+    "caption": "Figure 4.5: Engineering Process Areas",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 418,
+      "path_count": 418,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 62,
+    "caption": "Figure 4.6 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 205,
+      "path_count": 205,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 62,
+    "caption": "Figure 4.6 provides a bird’s-eye view of the interactions among the Basic",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 205,
+      "path_count": 205,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 63,
+    "caption": "Figure 4.7 provides a bird’s-eye view of the interactions among the",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 64,
+    "caption": "Figure 4.7: Advanced Support Process Areas",
+    "vector_elements": {
+      "has_paths": true,
+      "has_drawings": true,
+      "drawing_count": 159,
+      "path_count": 159,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 76,
+    "caption": "indicated in Table 6.1.",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 12,
+      "path_count": 12,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 76,
+    "caption": "indicated in Table 6.1.",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 12,
+      "path_count": 12,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 86,
+    "caption": "Refer to Table 6.2 in Generic Goals and Generic Practices for more",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": false,
+      "drawing_count": 0,
+      "path_count": 0,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 132,
+    "caption": "Table 6.2 describes (1) the process areas that support the implementation",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 1,
+      "path_count": 1,
+      "has_tables": false
+    }
+  },
+  {
+    "page": 133,
+    "caption": "Table 6.2 Generic Practice and Process Area Relationships",
+    "vector_elements": {
+      "has_paths": false,
+      "has_drawings": true,
+      "drawing_count": 26,
+      "path_count": 26,
+      "has_tables": false
+    }
+  }
+]

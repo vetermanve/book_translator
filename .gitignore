@@ -1,0 +1,125 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.manifest
+*.spec
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Project specific - Working files and outputs
+book.pdf
+*.pdf
+!README.pdf
+
+# Extracted content
+extracted/
+extracted_fixed/
+extracted_proper/
+extracted_chapters/
+
+# Figures and images
+figures/
+images/
+*.png
+*.jpg
+*.jpeg
+*.svg
+
+# Translations
+translations/
+translations_filtered/
+translations_phonetic/
+translations_new/
+
+# Audio files
+audiobook/
+*.mp3
+*.wav
+*.m4a
+
+# Output files
+output/
+final_book/
+compiled/
+
+# Temporary files
+temp/
+tmp/
+temp_audio/
+*.tmp
+*.temp
+*.log
+*.cache
+
+# Archive and backups
+archive/
+backups/
+projects/
+*.zip
+*.tar
+*.tar.gz
+
+# System files
+Thumbs.db
+.DS_Store
+._.DS_Store
+desktop.ini
+
+# Test files
+test_*
+*_test.py
+tests/
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Config files with sensitive data
+config.json
+settings.json
+api_keys.json
+
+# But keep example configs
+!config.example.json
+!blacklist_config.json
+!.env.example

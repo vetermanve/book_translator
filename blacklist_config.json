@@ -1,0 +1,38 @@
+{
+  "blacklist": {
+    "phrases": [
+      "CMMI for Development, Version 1.3",
+      "CMMI для разработки, версия 1.3",
+      "CMMI for Development, версия 1.3",
+      "CMMI-DEV, V1.3",
+      "CMMI-DEV, версия 1.3"
+    ],
+    "symbols": [
+      "®",
+      "™",
+      "©"
+    ],
+    "patterns": [
+      {
+        "pattern": "\\bCMMI\\s+for\\s+Development,\\s+[Vv]ersion\\s+\\d+\\.\\d+\\b",
+        "description": "CMMI version patterns in English"
+      },
+      {
+        "pattern": "\\bCMMI\\s+для\\s+разработки,\\s+[Вв]ерсия\\s+\\d+\\.\\d+\\b",
+        "description": "CMMI version patterns in Russian"
+      }
+    ]
+  },
+  "settings": {
+    "remove_empty_paragraphs": true,
+    "remove_empty_groups": true,
+    "case_sensitive": false,
+    "trim_whitespace": true,
+    "min_paragraph_length": 10,
+    "log_removals": true
+  },
+  "notes": {
+    "description": "Конфигурация для удаления нежелательного контента из переведенного текста",
+    "usage": "Редактируйте списки blacklist для добавления новых фраз или символов для удаления"
+  }
+}
