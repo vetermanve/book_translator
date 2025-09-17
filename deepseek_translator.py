@@ -12,13 +12,19 @@ class DeepSeekTranslator:
     def __init__(self, api_key=None):
         # Загружаем API ключ из .env файла
         if not api_key:
-            from pathlib import Path
             env_file = Path('.env')
             if env_file.exists():
                 with open(env_file) as f:
                     for line in f:
                         if line.startswith('DEEPSEEK_API_KEY='):
-                            api_key = line.split('=', 1)[1].strip()
+                            # Получаем значение после =
+                            value = line.split('=', 1)[1].strip()
+                            # Убираем кавычки если есть
+                            if value.startswith('"') and value.endswith('"'):
+                                value = value[1:-1]
+                            elif value.startswith("'") and value.endswith("'"):
+                                value = value[1:-1]
+                            api_key = value
                             break
         self.api_key = api_key or os.getenv("DEEPSEEK_API_KEY")
         if self.api_key:
