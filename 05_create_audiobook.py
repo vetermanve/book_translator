@@ -240,8 +240,13 @@ class AudioBookGenerator:
         """Загрузка всех переведенных глав"""
         chapters = []
         
-        # Ищем все файлы переводов
-        translation_files = sorted(self.translations_dir.glob("chapter_*_translated.json"))
+        # Ищем все файлы переводов (поддерживаем разные форматы имен)
+        # Для обычных переводов: chapter_*_translated.json
+        # Для адаптированных: chapter_*_translated_audio.json или chapter_*_audio.json
+        translation_files = sorted(self.translations_dir.glob("chapter_*_translated*.json"))
+        if not translation_files:
+            # Пробуем другой паттерн для адаптированных файлов
+            translation_files = sorted(self.translations_dir.glob("chapter_*_audio.json"))
         
         if not translation_files:
             print(f"❌ Не найдено переведенных глав в {self.translations_dir}")
@@ -253,7 +258,19 @@ class AudioBookGenerator:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
                     chapter_data = json.load(f)
-                    chapters.append(chapter_data)
+                    
+                    # Проверяем, это адаптированный файл или обычный
+                    if 'adapted_paragraphs' in chapter_data:
+                        # Для адаптированных файлов используем adapted_paragraphs
+                        adapted_chapter = {
+                            'title': chapter_data.get('title', ''),
+                            'paragraphs': chapter_data.get('adapted_paragraphs', [])
+                        }
+                        chapters.append(adapted_chapter)
+                        print(f"  📝 Загружена адаптированная глава: {file_path.name}")
+                    else:
+                        # Обычный формат
+                        chapters.append(chapter_data)
             except Exception as e:
                 print(f"⚠️ Ошибка загрузки {file_path}: {e}")
         
