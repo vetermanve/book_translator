@@ -85,7 +85,7 @@ PROJECT_STRUCTURE.md   # ЭТА структура (НЕ ИЗМЕНЯТЬ!)
 
 API ключи хранятся в `.env` файле:
 ```
-DEEPSEEK_API_KEY=sk-903f19e874be476692d7c8d2e10ad443
+DEEPSEEK_API_KEY=your_api_key_here
 ```
 
 Скрипты должны читать ключ из .env автоматически.
