@@ -15,7 +15,7 @@ import hashlib
 class ProperPDFExtractor:
     """Экстрактор PDF с правильной разбивкой на параграфы"""
     
-    def __init__(self, pdf_path, output_dir="extracted_proper"):
+    def __init__(self, pdf_path, output_dir="extracted_fixed"):
         self.pdf_path = pdf_path
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(exist_ok=True)

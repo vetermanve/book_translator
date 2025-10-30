@@ -134,3 +134,6 @@ audio_adapted/
 !blacklist_config.json
 !phonetics.example.json
 !.env.example
+
+# New microservices project (separate repository)
+booktranslator-pro/

@@ -351,7 +351,7 @@ class ParallelTranslator:
                         
                         # API запрос
                         response = translator.client.chat.completions.create(
-                            model="deepseek-chat",
+                            model=translator.model,
                             messages=[
                                 {"role": "system", "content": system_prompt},
                                 {"role": "user", "content": f"""Переведи следующий текст на русский язык. 
@@ -667,9 +667,14 @@ def main():
     args = parser.parse_args()
     
     # Загрузка метаданных
-    metadata_file = Path("extracted_fixed/metadata.json")
+    # Проверяем наличие извлеченных глав
+    extracted_dir = Path("extracted_fixed")
+    if not extracted_dir.exists():
+        extracted_dir = Path("extracted")
+    
+    metadata_file = extracted_dir / "metadata.json"
     if not metadata_file.exists():
-        print(Colors.RED + "❌ Сначала извлеките содержимое: python main.py extract" + Colors.RESET)
+        print(Colors.RED + "❌ Сначала извлеките содержимое: python3 01_extract_book.py" + Colors.RESET)
         return
     
     with open(metadata_file, 'r', encoding='utf-8') as f:
@@ -696,8 +701,12 @@ def main():
     
     print(f"{Colors.BOLD}📚 Всего глав для перевода: {len(chapters)}{Colors.RESET}")
     print(f"{Colors.BOLD}🚀 Запуск {args.workers} параллельных потоков{Colors.RESET}")
-    print(f"{Colors.DIM}Нажмите Enter для начала...{Colors.RESET}")
-    input()
+    
+    # Не ждем Enter если запущено с флагом --all или в фоновом режиме
+    import sys
+    if not args.all and sys.stdin.isatty():
+        print(f"{Colors.DIM}Нажмите Enter для начала...{Colors.RESET}")
+        input()
     
     # Запуск параллельного перевода
     translator = ParallelTranslator(max_workers=args.workers)

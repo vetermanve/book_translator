@@ -425,28 +425,125 @@ class UniversalBookExtractor:
         chapters = []
         
         # Метод 1: Поиск явных маркеров глав
-        if text_stats['has_chapters']:
+        # Расширенный поиск включая "Chapter X." в начале строк
+        chapter_patterns = [
+            r'^Chapter\s+\d+[.\s]',
+            r'^CHAPTER\s+\d+[.\s]',
+            r'^Part\s+\d+[.\s]',
+            r'^Section\s+\d+[.\s]',
+            r'^Глава\s+\d+[.\s]',
+            r'^Часть\s+\d+[.\s]',
+        ]
+        
+        # Проверяем наличие паттернов глав
+        has_chapters = False
+        for pattern in chapter_patterns:
+            if re.search(pattern, full_text, re.MULTILINE):
+                has_chapters = True
+                break
+        
+        if has_chapters or text_stats.get('has_chapters'):
             chapters = self._find_chapter_markers(full_text)
         
-        # Метод 2: Разбивка по размеру с умными параграфами
+        # Метод 2: Умная разбивка по контексту для сплошного текста
         if not chapters:
-            print("📊 Главы не найдены, создаем структуру...")
+            print("📊 Главы не найдены, анализируем структуру текста...")
             
-            # Если нет параграфов, создаем их из предложений
-            if text_stats['paragraph_count'] == 0:
-                print(f"🔄 Создаем параграфы из {text_stats['sentence_count']} предложений...")
-                paragraphs = self._create_smart_paragraphs(full_text)
+            # Специальная обработка для сплошного текста без переносов
+            if text_stats['paragraph_count'] == 0 and text_stats['newline_count'] < 10:
+                print("📝 Обнаружен сплошной текст, применяем интеллектуальное разбиение...")
+                chapters = self._smart_chapter_detection(full_text)
             else:
-                # Используем существующие параграфы
-                if text_stats['double_newline_count'] > 10:
-                    paragraphs = full_text.split('\n\n')
+                # Стандартная обработка
+                if text_stats['paragraph_count'] == 0:
+                    print(f"🔄 Создаем параграфы из {text_stats['sentence_count']} предложений...")
+                    paragraphs = self._create_smart_paragraphs(full_text)
                 else:
-                    paragraphs = full_text.split('\n')
+                    # Используем существующие параграфы
+                    if text_stats['double_newline_count'] > 10:
+                        paragraphs = full_text.split('\n\n')
+                    else:
+                        paragraphs = full_text.split('\n')
+                    
+                    paragraphs = [p.strip() for p in paragraphs if len(p.strip()) > 20]
                 
-                paragraphs = [p.strip() for p in paragraphs if len(p.strip()) > 20]
+                # Группируем параграфы в главы
+                chapters = self._group_paragraphs_into_chapters(paragraphs)
+        
+        return chapters
+    
+    def _smart_chapter_detection(self, text: str) -> List[Dict]:
+        """Интеллектуальное обнаружение глав в сплошном тексте"""
+        chapters = []
+        
+        # Ищем потенциальные маркеры глав в середине текста
+        # Например: "Chapter 1." или "Chapter 1 " даже если они не в начале строки
+        patterns = [
+            r'Chapter\s+\d+[.\s:][\s\w]*',
+            r'CHAPTER\s+\d+[.\s:][\s\w]*',
+            r'Part\s+\d+[.\s:][\s\w]*',
+            r'Section\s+\d+[.\s:][\s\w]*',
+        ]
+        
+        # Ищем все вхождения
+        all_matches = []
+        for pattern in patterns:
+            matches = list(re.finditer(pattern, text, re.IGNORECASE))
+            all_matches.extend(matches)
+        
+        # Сортируем по позиции
+        all_matches.sort(key=lambda x: x.start())
+        
+        if all_matches:
+            print(f"🎯 Найдено {len(all_matches)} потенциальных глав в тексте")
             
-            # Группируем параграфы в главы
-            chapters = self._group_paragraphs_into_chapters(paragraphs)
+            for i, match in enumerate(all_matches):
+                start_pos = match.start()
+                
+                # Извлекаем заголовок и немного контекста
+                title_end = match.end()
+                # Ищем конец заголовка (первая точка после названия главы)
+                next_sentence = text[title_end:title_end+200].find('.')
+                if next_sentence > 0:
+                    title = text[start_pos:title_end+next_sentence].strip()
+                else:
+                    title = match.group(0).strip()
+                
+                # Определяем конец главы
+                if i + 1 < len(all_matches):
+                    end_pos = all_matches[i + 1].start()
+                else:
+                    end_pos = len(text)
+                
+                chapter_text = text[start_pos:end_pos]
+                
+                # Создаем параграфы из текста главы
+                chapter_paragraphs = self._create_smart_paragraphs(chapter_text)
+                
+                chapters.append({
+                    'title': self._clean_chapter_title(title),
+                    'text': chapter_text,
+                    'paragraphs': chapter_paragraphs
+                })
+        else:
+            # Если совсем нет маркеров, делим по размеру
+            print("📚 Маркеры глав не найдены, делим текст по размеру...")
+            
+            # Создаем параграфы из всего текста
+            all_paragraphs = self._create_smart_paragraphs(text)
+            
+            # Делим на главы по 30-50 параграфов
+            paragraphs_per_chapter = 40
+            
+            for i in range(0, len(all_paragraphs), paragraphs_per_chapter):
+                chapter_paragraphs = all_paragraphs[i:i+paragraphs_per_chapter]
+                chapter_num = (i // paragraphs_per_chapter) + 1
+                
+                chapters.append({
+                    'title': f"Chapter {chapter_num}",
+                    'text': '\n\n'.join(chapter_paragraphs),
+                    'paragraphs': chapter_paragraphs
+                })
         
         return chapters
     

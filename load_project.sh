@@ -18,6 +18,8 @@ if [ -n "$1" ]; then
         echo ""
         echo "Теперь можете:"
         echo "  • Продолжить перевод: python3 03_translate_parallel.py"
+        echo "  • Создать аудиокнигу v1.0: python3 05_create_audiobook.py"
+        echo "  • Адаптировать для аудио v2.0: python3 10_adapt_for_audio.py"
         echo "  • Скомпилировать книгу: python3 04_compile_book.py"
         echo "  • Запустить полный цикл: ./run_all.sh"
     else
@@ -110,6 +112,8 @@ else:
         echo ""
         echo "Теперь можете:"
         echo "  • Продолжить перевод: python3 03_translate_parallel.py"
+        echo "  • Создать аудиокнигу v1.0: python3 05_create_audiobook.py"
+        echo "  • Адаптировать для аудио v2.0: python3 10_adapt_for_audio.py"
         echo "  • Скомпилировать книгу: python3 04_compile_book.py"
         echo "  • Запустить полный цикл: ./run_all.sh"
     else

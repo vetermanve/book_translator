@@ -49,14 +49,20 @@ class ProjectManager:
             "progress",
             "vectors",
             "images",
-            "images_final"
+            "images_final",
+            "audiobook",           # Аудиокниги v1.0
+            "audio_adapted",       # Адаптированные тексты для аудио v2.0
+            "audiobook_adapted",   # Аудиокниги v2.0
+            "phonetics"            # Фонетические замены
         ]
         
         # Файлы для сохранения
         self.work_files = [
             "book.pdf",
             "USAGE.md",
-            ".env"  # если есть настройки API
+            ".env",  # если есть настройки API
+            "phonetics.json",  # фонетические замены
+            "book_context.json"  # контекст книги для адаптации
         ]
         
         self.load_metadata()
@@ -250,6 +256,9 @@ class ProjectManager:
             "translated_chapters": 0,
             "figures_extracted": 0,
             "output_files": 0,
+            "audio_files": 0,
+            "adapted_chapters": 0,
+            "adapted_audio_files": 0,
             "total_size_mb": 0
         }
         
@@ -279,6 +288,24 @@ class ProjectManager:
         if output_dir.exists():
             outputs = list(output_dir.glob("*.pdf")) + list(output_dir.glob("*.epub"))
             stats["output_files"] = len(outputs)
+        
+        # Считаем аудио файлы v1.0
+        audiobook_dir = Path("audiobook")
+        if audiobook_dir.exists():
+            audio_files = list(audiobook_dir.glob("*.mp3"))
+            stats["audio_files"] = len(audio_files)
+        
+        # Считаем адаптированные главы
+        adapted_dir = Path("audio_adapted")
+        if adapted_dir.exists():
+            adapted = list(adapted_dir.glob("chapter_*_translated_audio.json"))
+            stats["adapted_chapters"] = len(adapted)
+        
+        # Считаем адаптированные аудио файлы v2.0
+        adapted_audio_dir = Path("audiobook_adapted")
+        if adapted_audio_dir.exists():
+            adapted_audio = list(adapted_audio_dir.glob("*.mp3"))
+            stats["adapted_audio_files"] = len(adapted_audio)
         
         # Считаем общий размер
         total_size = 0
@@ -334,6 +361,18 @@ class ProjectManager:
         print(f"  📊 Переведено глав: {stats['translated_chapters']}/{stats['total_chapters']}")
         print(f"  🖼️  Извлечено диаграмм: {stats['figures_extracted']}")
         print(f"  📄 Выходных файлов: {stats['output_files']}")
+        
+        # Добавляем информацию об аудио v1.0
+        if stats.get('audio_files', 0) > 0:
+            print(f"  🎵 Аудио файлов: {stats['audio_files']}")
+        
+        # Добавляем информацию об адаптации v2.0
+        if stats.get('adapted_chapters', 0) > 0:
+            print(f"  📝 Адаптировано для аудио: {stats['adapted_chapters']} глав")
+        
+        if stats.get('adapted_audio_files', 0) > 0:
+            print(f"  🎙️  Адаптированных аудио: {stats['adapted_audio_files']}")
+        
         print(f"  💾 Размер данных: {stats['total_size_mb']} MB")
     
     def switch_project(self, project_name):
