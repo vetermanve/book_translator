@@ -101,8 +101,9 @@ class TranslationTask:
     total_blocks: int
 
 class ParallelTranslator:
-    def __init__(self, max_workers=25):
+    def __init__(self, max_workers=25, extracted_dir="extracted"):
         self.max_workers = max_workers
+        self.extracted_dir = extracted_dir
         self.progress_tracker = TranslationProgress()
         self.context_manager = ContextManager()
         
@@ -482,7 +483,7 @@ class ParallelTranslator:
                 continue
             
             # Загружаем главу
-            chapter_file = Path(f"extracted_fixed/chapter_{chapter_num:03d}.json")
+            chapter_file = Path(self.extracted_dir) / f"chapter_{chapter_num:03d}.json"
             if not chapter_file.exists():
                 log_messages.append(f"Файл главы {chapter_num} не найден")
                 continue
@@ -495,7 +496,7 @@ class ParallelTranslator:
             
             # Группируем параграфы
             translator = DeepSeekTranslator()
-            paragraph_groups = translator._group_paragraphs(chapter_data["paragraphs"], max_chars=800)
+            paragraph_groups = translator._group_paragraphs(chapter_data["paragraphs"], max_chars=400)
             
             # Создаем задачи для каждого блока
             for block_idx, block_data in enumerate(paragraph_groups):
@@ -663,12 +664,14 @@ def main():
     parser.add_argument('chapters', nargs='*', type=int, help='Номера глав для перевода')
     parser.add_argument('--workers', '-w', type=int, default=25, help='Количество потоков (по умолчанию 25)')
     parser.add_argument('--all', '-a', action='store_true', help='Перевести все главы')
+    parser.add_argument('--extracted-dir', '-e', type=str, default='extracted', 
+                       help='Папка с извлеченными главами (по умолчанию: extracted)')
     
     args = parser.parse_args()
     
     # Загрузка метаданных
     # Проверяем наличие извлеченных глав
-    extracted_dir = Path("extracted_fixed")
+    extracted_dir = Path(args.extracted_dir)
     if not extracted_dir.exists():
         extracted_dir = Path("extracted")
     
@@ -709,7 +712,7 @@ def main():
         input()
     
     # Запуск параллельного перевода
-    translator = ParallelTranslator(max_workers=args.workers)
+    translator = ParallelTranslator(max_workers=args.workers, extracted_dir=args.extracted_dir)
     translator.translate_chapters(chapters)
 
 

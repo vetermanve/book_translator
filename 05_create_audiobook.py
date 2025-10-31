@@ -62,7 +62,13 @@ class AudioBookGenerator:
         # Голос для озвучки (русские голоса edge-tts)
         self.voices = {
             'male': 'ru-RU-DmitryNeural',      # Мужской голос
-            'female': 'ru-RU-SvetlanaNeural'   # Женский голос
+            'female': 'ru-RU-SvetlanaNeural',  # Женский голос
+            'dariya': 'ru-RU-DariyaNeural',    # Дарья (оптимизирован для новостей)
+            'dmitry': 'ru-RU-DmitryNeural',    # Дмитрий
+            'svetlana': 'ru-RU-SvetlanaNeural', # Светлана
+            'ru-RU-DmitryNeural': 'ru-RU-DmitryNeural',
+            'ru-RU-SvetlanaNeural': 'ru-RU-SvetlanaNeural',
+            'ru-RU-DariyaNeural': 'ru-RU-DariyaNeural'
         }
         self.selected_voice = self.voices['male']  # По умолчанию мужской
         
@@ -309,6 +315,10 @@ class AudioBookGenerator:
         """Подготовка текста для озвучки с фонетической заменой"""
         # Убираем плейсхолдеры изображений
         text = re.sub(r'\[IMAGE_[^\]]+\]', '', text)
+        
+        # Заменяем переносы строк на точки для пауз
+        text = text.replace('\\n', '. ')
+        text = text.replace('\n', '. ')
         
         # Убираем множественные пробелы
         text = re.sub(r'\s+', ' ', text)
@@ -663,8 +673,11 @@ class AudioBookGenerator:
 
 def main():
     parser = argparse.ArgumentParser(description='Генератор аудиокниги из переведенного текста')
-    parser.add_argument('--voice', choices=['male', 'female'], default='male',
-                       help='Голос для озвучки (по умолчанию: male)')
+    parser.add_argument('--voice', 
+                       choices=['male', 'female', 'dariya', 'dmitry', 'svetlana',
+                               'ru-RU-DmitryNeural', 'ru-RU-SvetlanaNeural', 'ru-RU-DariyaNeural'], 
+                       default='male',
+                       help='Голос для озвучки: male/dmitry, female/svetlana, dariya (по умолчанию: male)')
     parser.add_argument('--rate', default='+0%',
                        help='Скорость речи (-50%% до +100%%, по умолчанию: +0%%)')
     parser.add_argument('--volume', default='+0%',

@@ -294,35 +294,85 @@ class DeepSeekTranslator:
             return result_paragraphs
     
     def _group_paragraphs(self, paragraphs, max_chars=1500):
-        """Группировка параграфов для эффективного перевода"""
+        """Умная группировка параграфов для эффективного перевода
+        
+        Алгоритм:
+        1. Оптимальный размер группы: 150-200 слов
+        2. Максимальный размер: 250 слов
+        3. Минимальный размер: 100 слов (если возможно)
+        4. Группируем параграфы пока не достигнем оптимального размера
+        """
         groups = []
         current_group = []
-        current_length = 0
+        current_words = 0
+        
+        # Параметры группировки - очень короткие блоки для максимального качества
+        optimal_words = 75   # Целевой размер группы
+        min_words = 50       # Минимум для группы (если возможно)
+        max_words = 100      # Максимум для группы - не более 100 слов!
+        
         image_placeholders = []  # Накапливаем плейсхолдеры
         
-        for paragraph in paragraphs:
+        for i, paragraph in enumerate(paragraphs):
             # Если это плейсхолдер изображения - просто запоминаем его
             if paragraph.startswith("[IMAGE_"):
                 image_placeholders.append(paragraph)
+                continue
+            
+            # Если были накопленные изображения, добавляем их в текущую группу
+            if image_placeholders:
+                current_group.extend(image_placeholders)
+                image_placeholders = []
+            
+            para_words = len(paragraph.split())
+            
+            # Решаем, добавлять ли параграф в текущую группу
+            if current_group:
+                # Если добавление превысит максимум - создаем новую группу
+                if current_words + para_words > max_words:
+                    # Но если текущая группа слишком маленькая и параграф сам по себе не огромный
+                    if current_words < min_words and para_words < max_words * 0.7:
+                        # Добавляем несмотря на превышение (лучше одна большая группа чем две маленькие)
+                        current_group.append(paragraph)
+                        current_words += para_words
+                    else:
+                        # Сохраняем текущую группу и начинаем новую
+                        groups.append({
+                            "text": "\n\n".join([p for p in current_group if not p.startswith("[IMAGE_")]),
+                            "paragraphs": current_group,
+                            "has_images": any(p.startswith("[IMAGE_") for p in current_group)
+                        })
+                        current_group = [paragraph]
+                        current_words = para_words
+                # Если мы близки к оптимальному размеру
+                elif current_words >= optimal_words:
+                    # Смотрим на следующий параграф
+                    next_para = paragraphs[i+1] if i+1 < len(paragraphs) else None
+                    next_words = len(next_para.split()) if next_para and not next_para.startswith("[IMAGE_") else 0
+                    
+                    # Если следующий параграф маленький и поместится - добавляем текущий
+                    if next_words > 0 and current_words + para_words + next_words <= max_words:
+                        current_group.append(paragraph)
+                        current_words += para_words
+                    else:
+                        # Добавляем текущий и завершаем группу
+                        current_group.append(paragraph)
+                        current_words += para_words
+                        groups.append({
+                            "text": "\n\n".join([p for p in current_group if not p.startswith("[IMAGE_")]),
+                            "paragraphs": current_group,
+                            "has_images": any(p.startswith("[IMAGE_") for p in current_group)
+                        })
+                        current_group = []
+                        current_words = 0
+                else:
+                    # Еще не достигли оптимального размера - добавляем
+                    current_group.append(paragraph)
+                    current_words += para_words
             else:
-                # Если были накопленные изображения, добавляем их в текущую группу
-                if image_placeholders:
-                    current_group.extend(image_placeholders)
-                    image_placeholders = []
-                
-                # Проверяем размер группы
-                if current_length + len(paragraph) > max_chars and current_group:
-                    # Сохраняем текущую группу
-                    groups.append({
-                        "text": "\n\n".join([p for p in current_group if not p.startswith("[IMAGE_")]),
-                        "paragraphs": current_group,
-                        "has_images": any(p.startswith("[IMAGE_") for p in current_group)
-                    })
-                    current_group = []
-                    current_length = 0
-                
-                current_group.append(paragraph)
-                current_length += len(paragraph)
+                # Начинаем новую группу
+                current_group = [paragraph]
+                current_words = para_words
         
         # Добавляем оставшиеся изображения к последней группе
         if image_placeholders:
@@ -411,6 +461,13 @@ class DeepSeekTranslator:
         
         # Fallback на стандартный промпт
         prompt = f"""Переводчик технической документации EN→RU. Формальный стиль, российская терминология.
+
+ВАЖНО для озвучивания: Проставляй ударения ТОЛЬКО в словах-омографах, где от ударения зависит смысл:
+- Используй символ ударения ́ (U+0301) ПОСЛЕ ударной гласной
+- Примеры омографов: за́мок/замо́к, му́ка/мука́, сто́ит/стои́т, больша́я/бо́льшая, до́рога/доро́га
+- НЕ СТАВЬ ударения в обычных словах, где ударение однозначно
+- НЕ СТАВЬ ударения в словах: работа, система, управление, документ и т.д.
+
 Сохраняй: плейсхолдеры [IMAGE_XXX], форматирование, аббревиатуры.
 Контекст: {context.get('previous_summary', 'Начало документа')}"""
         
